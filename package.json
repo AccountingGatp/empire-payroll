@@ -1,0 +1,19 @@
+{
+  "name": "empire-payroll-je",
+  "version": "1.0.0",
+  "description": "Empire US payroll (Payentry) to QuickBooks Online journal entry - runs fully in the browser",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/engine.test.js tests/private.test.js",
+    "vendor": "node scripts/vendor.mjs",
+    "start": "node scripts/serve.mjs"
+  },
+  "dependencies": {
+    "pdfjs-dist": "6.4.299",
+    "xlsx": "0.18.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

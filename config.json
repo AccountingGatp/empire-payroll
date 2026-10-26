@@ -1,0 +1,68 @@
+{
+  "_readme": "All business rules live here. Edit in the app (Rules tab) or in this file. Employee keys are 'Last First' as on the Employee List (case-insensitive).",
+  "class_map": {
+    "Chicago": "Empire Tours:Chicago",
+    "Admin": "Empire Tours:Administrative",
+    "Administrative": "Empire Tours:Administrative",
+    "See it All": "Empire Tours:SIA",
+    "SIA": "Empire Tours:SIA",
+    "NYC": "NYC",
+    "Washington D.C.": "Empire Tours:Washington DC",
+    "Charleston": "Empire Tours:Charleston",
+    "London": "Empire Tours:London"
+  },
+  "accounts": {
+    "contract_labor": "50005 Cost of Goods Sold:Contract labor",
+    "admin_salary": "66020 Payroll expenses:Salaries & wages",
+    "officer_salary": "66010 Payroll expenses:Officers' salaries",
+    "city_mgr_salary": "66000.1 Payroll expenses:City Manager Salary",
+    "admin_tax": "67610 Payroll expenses:Payroll taxes",
+    "city_mgr_tax": "67610.1 Payroll expenses:City Manager Tax",
+    "deductions": "60100 General business expenses:Health insurance & accident plans",
+    "liability": "21040 Accrued Payroll Liabilities"
+  },
+  "settings": {
+    "journal_date_mode": "check_date",
+    "deductions_side": "credit",
+    "tax_follows_pay": true,
+    "unknown_class_mode": "department",
+    "fallback_class": "Admin",
+    "flag_in_description": true
+  },
+  "dept_class": {
+    "STAFF": "Admin",
+    "Illinois": "Chicago",
+    "SIA": "See it All",
+    "Washington D.C.": "Washington D.C.",
+    "South Carolina": "Admin"
+  },
+  "class_overrides": {
+    "Conaty Griffin": "Admin",
+    "Wilson Braeden": "Chicago",
+    "Harris Shane": "Washington D.C.",
+    "Costolloe Jesse": "Washington D.C."
+  },
+  "officers": ["Garcia Steven"],
+  "regular_pay_as_contract_labor": ["Conaty Griffin"],
+  "city_managers": {
+    "Conaty Griffin":  {"work_class": "Admin"},
+    "Sherman Adam":    {"work_class": "Chicago"},
+    "Wilson Braeden":  {"work_class": "Chicago"},
+    "Harris Shane":    {"work_class": "Washington D.C."},
+    "Clemons Jackson": {"work_class": "Admin"},
+    "Costolloe Jesse": {"work_class": "Washington D.C."},
+    "Stokes Trevor":   {"work_class": "Admin"},
+    "Lanxton Alan":    {"work_class": "Chicago", "salary_is_city_manager": false}
+  },
+  "name_aliases": {},
+  "outside_payentry": {
+    "credit_account": "21040 Accrued Payroll Liabilities",
+    "jared": {
+      "name": "Jared Wiseman",
+      "nyc_city_manager": 500,
+      "charleston_city_manager": 200,
+      "charleston_from": "2026-09-21"
+    },
+    "yassine": { "name": "Yassine", "direct_class": "London" }
+  }
+}
