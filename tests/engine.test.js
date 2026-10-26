@@ -82,7 +82,9 @@ test('tax_follows_pay=false keeps contract-labor tax in 67610 (pre 15 Oct rule)'
 test('unmapped class fails the class check', () => {
   const list = [['Employee name', 'Class'], ['Ames Pat', 'Mars'], ['Bell Sam', 'Chicago']];
   const r = runPayroll({ lines: LINES, empListRows: list, classListRows: CLASSES, cfg });
-  assert.equal(r.checks.find(c => c[0].startsWith('Every class')).at(1), false);
+  const k = r.checks.find(c => c[0].startsWith('Every class'));
+  assert.equal(k[1], false);
+  assert.ok(k[2].includes('"Mars"'));
 });
 
 test('unknown pay code is caught by the earnings check', () => {
@@ -131,4 +133,15 @@ test('diff against a finished journal reports only real differences', () => {
   assert.equal(diffReference(r.payRows, ref).length, 0);
   ref[0].ACCOUNT = '99999 Wrong';
   assert.equal(diffReference(r.payRows, ref).length, 1);
+});
+
+import { detectKind } from '../src/detect.js';
+test('drop-all: files are recognised by content, in any order', () => {
+  assert.equal(detectKind('anything.pdf', null), 'pdf');
+  assert.equal(detectKind('x.xlsx', [['Employee name', 'Class'], ['Ames Pat', 'Chicago']]), 'emp');
+  assert.equal(detectKind('x.xlsx', [['Company'], ['Class full name'], ['Empire Tours:Chicago']]), 'cls');
+  assert.equal(detectKind('x.xls', [['ACCOUNT', 'DEBITS\n', 'CREDITS\n', 'DESCRIPTION']]), 'ref');
+  assert.equal(detectKind('File_20.xls', [['ACCOUNT', 'DEBITS', 'CREDITS']]), 'ref');
+  assert.equal(detectKind('mystery.xlsx', [['a', 'b']]), null);
+  assert.equal(detectKind('Employee_List_3.xlsx', [['a', 'b']]), 'emp');
 });

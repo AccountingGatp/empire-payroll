@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Rules (administrators)</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%231f4fd8%27/%3E%3Cpath d=%27M9 22V10h10M9 16h8M9 22h10%27 stroke=%27white%27 stroke-width=%273%27 fill=%27none%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap head"><div><h1>Rules</h1><p class="sub">For administrators. Accounts, class names and special cases.</p></div><a class="back" href="./">&larr; Back to payroll</a></div></header>
+<main class="wrap">
+  <div class="card">
+    <p class="hint">Changes are saved in this browser only. To change the rules for everyone, edit <code>config.json</code> in the repository and redeploy.</p>
+    <textarea id="cfg" class="code" rows="32" spellcheck="false" aria-label="Rules JSON"></textarea>
+    <div class="actions">
+      <button class="primary" id="cfg-save">Save rules</button>
+      <button class="ghost" id="cfg-reset">Reset to defaults</button>
+      <button class="ghost" id="cfg-dl">Download config.json</button>
+      <label class="ghost filebtn">Load config.json<input id="cfg-up" type="file" accept=".json,application/json"></label>
+      <span id="cfg-msg" class="status" role="status"></span>
+    </div>
+  </div>
+</main>
+<script type="module" src="src/admin.js"></script>
+</body>
+</html>

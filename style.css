@@ -76,3 +76,41 @@ tfoot td { font-weight: 700; position: sticky; bottom: 0; background: var(--surf
 .prose li { margin-bottom: 6px; }
 code { font: 12.5px ui-monospace, Menlo, Consolas, monospace; background: var(--bg); padding: 1px 5px; border-radius: 4px; }
 @media (prefers-reduced-motion: no-preference) { .drop, button { transition: border-color .15s, background .15s, opacity .15s; } }
+
+/* ---- simple layout ---- */
+.head { display: flex; gap: 16px; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; padding-top: 18px; padding-bottom: 14px; }
+.back { color: var(--brand); text-decoration: none; font-size: 14px; }
+.foot { padding: 0 16px 32px; font-size: 13px; }
+.foot a { color: var(--muted); }
+.dropzone { border: 2px dashed var(--line); border-radius: 14px; padding: 34px 16px; text-align: center; cursor: pointer; background: var(--bg); }
+.dropzone:hover, .dropzone:focus-visible, .dropzone.over { border-color: var(--brand); background: color-mix(in srgb, var(--brand) 8%, var(--bg)); }
+.dz-icon { font-size: 34px; line-height: 1; color: var(--brand); }
+.dz-title { margin: 8px 0 2px; font-size: 18px; font-weight: 650; }
+.dz-sub { margin: 0; color: var(--muted); }
+.link { color: var(--brand); text-decoration: underline; }
+.slots { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; }
+.slots li { display: grid; grid-template-columns: 22px minmax(0, 1.2fr) minmax(0, 1fr) 28px; gap: 8px; align-items: center; padding: 8px 10px; border-radius: 8px; background: var(--bg); }
+.slots .mark { color: var(--muted); text-align: center; }
+.slots li.has { background: var(--ok-bg); }
+.slots li.has .mark { color: var(--ok); font-weight: 700; }
+.slots em { font-style: normal; color: var(--muted); font-size: 12px; margin-left: 4px; }
+.slots .fn { color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.slots .x { background: none; border: 0; color: var(--muted); font-size: 20px; line-height: 1; cursor: pointer; padding: 0 4px; }
+.slots .x:hover { color: var(--bad); }
+@media (max-width: 640px) { .slots li { grid-template-columns: 22px 1fr 28px; } .slots .fn { grid-column: 2 / 3; grid-row: 2; } }
+.notice { margin: 12px 0 0; padding: 10px 12px; border-radius: 8px; background: var(--warn-bg); color: var(--text); }
+.notice.bad { background: var(--bad-bg); color: var(--bad); font-weight: 600; }
+.extras { margin-top: 14px; border-top: 1px solid var(--line); padding-top: 12px; }
+.extras summary { cursor: pointer; font-weight: 600; }
+.extras[open] summary { margin-bottom: 12px; }
+.banner { border-radius: var(--radius); padding: 16px 18px; margin-bottom: 14px; display: grid; gap: 4px; border: 1px solid transparent; }
+.banner b { font-size: 18px; }
+.banner .when { font-size: 13px; opacity: .85; }
+.banner.ok { background: var(--ok-bg); color: var(--ok); border-color: var(--ok); }
+.banner.warn { background: var(--warn-bg); color: var(--warn); border-color: var(--warn); }
+.banner.bad { background: var(--bad-bg); color: var(--bad); border-color: var(--bad); }
+.banner span { color: var(--text); }
+.top-actions { margin-top: 0; }
+.callout h2 { font-size: 15px; }
+details.card > summary { cursor: pointer; }
+details.card[open] > summary { margin-bottom: 12px; }

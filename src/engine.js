@@ -272,7 +272,7 @@ export function runChecks({ meta, emps, rows, info, qboClasses }) {
   res.push(['Pay lines equal report gross', Math.abs(payDebits - sg) < 0.011, `booked ${payDebits.toFixed(2)} report ${sg.toFixed(2)}`, true]);
   if (qboClasses && qboClasses.size) {
     const badc = [...new Set(rows.map(r => r.CLASS))].filter(c => !qboClasses.has(c));
-    res.push(['Every class exists in the QBO class list', !badc.length, badc.join(', ') || 'ok', true]);
+    res.push(['Every class exists in the QBO class list', !badc.length, badc.map(c => c.startsWith('UNMAPPED:') ? `"${c.slice(9)}" is on the Employee List but has no QuickBooks class set up in the rules` : `"${c}" is not in the QuickBooks class list`).join('; ') || 'ok', true]);
   } else res.push(['Every class exists in the QBO class list', true, 'skipped: no class list uploaded', false]);
   const fl = info.filter(i => i.flagged);
   res.push(['Every employee is on the Employee List', !fl.length, fl.length ? `${fl.length} not on list: ${fl.map(i => i.emp).join('; ')}` : 'ok', false]);

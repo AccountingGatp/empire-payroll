@@ -10,146 +10,86 @@
 </head>
 <body>
 <header class="top">
-  <div class="wrap">
+  <div class="wrap head">
     <div>
-      <h1>Empire Payroll &rarr; QBO Journal</h1>
-      <p class="sub">Turns the weekly Payentry Labor Distribution report into a QuickBooks journal entry.</p>
+      <h1>Empire Payroll Journal</h1>
+      <p class="sub">Drop the weekly payroll files. Get the QuickBooks journal entry.</p>
     </div>
-    <span class="privacy" title="Nothing you load here is sent anywhere. Parsing happens inside this browser tab.">Runs in your browser &middot; files never leave this computer</span>
+    <span class="privacy" title="Nothing you load here is sent anywhere. Everything happens inside this browser tab.">Private: files never leave this computer</span>
   </div>
-  <nav class="wrap tabs" role="tablist">
-    <button role="tab" id="tab-run" aria-selected="true" aria-controls="view-run">Run payroll</button>
-    <button role="tab" id="tab-rules" aria-selected="false" aria-controls="view-rules">Rules</button>
-    <button role="tab" id="tab-help" aria-selected="false" aria-controls="view-help">How it works</button>
-  </nav>
 </header>
 
 <main class="wrap">
-<section id="view-run" role="tabpanel">
-  <div class="card">
-    <h2><span class="n">1</span> Load the files</h2>
-    <div class="grid2">
-      <label class="drop" for="f-pdf">
-        <b>Payentry report (PDF) <em>required</em></b>
-        <span class="hint">Labor Distribution Report, one pay date</span>
-        <input id="f-pdf" type="file" accept="application/pdf,.pdf">
-        <span class="fname" id="n-pdf">No file chosen</span>
-      </label>
-      <label class="drop" for="f-emp">
-        <b>Employee List (Excel) <em>required</em></b>
-        <span class="hint">Columns: Employee name, Class</span>
-        <input id="f-emp" type="file" accept=".xlsx,.xls,.csv">
-        <span class="fname" id="n-emp">No file chosen</span>
-      </label>
-      <label class="drop" for="f-cls">
-        <b>QBO class list (Excel)</b>
-        <span class="hint">Used to check every class name exists</span>
-        <input id="f-cls" type="file" accept=".xlsx,.xls,.csv">
-        <span class="fname" id="n-cls">No file chosen</span>
-      </label>
-      <label class="drop" for="f-ref">
-        <b>Finished journal to compare (Excel)</b>
-        <span class="hint">Optional. Shows line-by-line differences</span>
-        <input id="f-ref" type="file" accept=".xlsx,.xls,.csv">
-        <span class="fname" id="n-ref">No file chosen</span>
-      </label>
-    </div>
-  </div>
-
-  <details class="card" id="outside">
-    <summary><h2 style="display:inline"><span class="n">2</span> Paid outside Payentry <small>(optional)</small></h2></summary>
-    <p class="hint">Jared Wiseman's direct payments, Yassine's direct payments and Deel payroll are not on the Payentry report. Leave blank to skip.</p>
-    <div class="grid2">
-      <label class="field">Jared Wiseman: total paid this week ($)
-        <input id="o-jared" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 900">
-        <span class="hint">Split by the rule on the Rules tab. No payroll tax.</span>
-      </label>
-      <label class="field">Yassine: direct payments this week ($)
-        <input id="o-yassine" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g. 400">
-        <span class="hint">Booked as contract labor, class London.</span>
-      </label>
-    </div>
-    <label class="field">Other lines, such as Deel payroll (CSV: account,class,debit,credit,description)
-      <textarea id="o-manual" rows="5" spellcheck="false" placeholder="account,class,debit,credit,description&#10;66020 Payroll expenses:Salaries &amp; wages,Empire Tours:Administrative,1000,,Louise - Deel gross"></textarea>
-    </label>
-  </details>
-
-  <div class="actions">
-    <button class="primary" id="go" disabled>Build journal entry</button>
-    <span id="status" class="status" role="status" aria-live="polite"></span>
-  </div>
-
-  <div id="results" hidden>
-    <div class="card">
-      <h2><span class="n">3</span> Check the result</h2>
-      <p id="summary" class="summary"></p>
-      <ul id="checks" class="checks"></ul>
-      <div id="flagbox" class="callout" hidden>
-        <b>Employees to confirm with Jonathan</b>
-        <p class="hint">They are booked provisionally and marked <code>[class unconfirmed]</code> in the description.</p>
-        <pre id="email" class="draft"></pre>
-        <button class="ghost" id="copy-email">Copy email draft</button>
-      </div>
+  <section class="card" id="intake">
+    <div id="dropzone" class="dropzone" tabindex="0" role="button" aria-label="Drop files here or press Enter to choose files">
+      <div class="dz-icon" aria-hidden="true">&#8681;</div>
+      <p class="dz-title">Drop all your files here</p>
+      <p class="dz-sub">or <span class="link">choose files</span>. You can drop them all at once, in any order.</p>
+      <input id="files" type="file" multiple accept=".pdf,.xlsx,.xls,.csv" hidden>
     </div>
 
-    <div class="card">
-      <h2><span class="n">4</span> Journal entry</h2>
-      <div class="tabs inner" role="tablist" id="rtabs">
-        <button role="tab" data-t="je" aria-selected="true">Journal</button>
-        <button role="tab" data-t="cls" aria-selected="false">By class</button>
-        <button role="tab" data-t="cm" aria-selected="false">City manager</button>
-        <button role="tab" data-t="emp" aria-selected="false">Employees</button>
-        <button role="tab" data-t="diff" aria-selected="false" id="diff-tab" hidden>Compare</button>
-      </div>
-      <div class="tablewrap" id="tbl"></div>
-      <div class="actions">
-        <button class="primary" id="dl-xlsx">Download journal (.xlsx)</button>
-        <button class="ghost" id="dl-csv">Download QBO import (.csv)</button>
-        <button class="ghost" id="dl-louise">Reply to Louise (.txt)</button>
-        <span id="blocked" class="blocked" hidden>Downloads are off until the red checks above are fixed.</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="view-rules" role="tabpanel" hidden>
-  <div class="card">
-    <h2>Rules</h2>
-    <p class="hint">Accounts, class names, special cases and assumptions. Saved in this browser only. Change this when the roster or Jonathan's instructions change, then run payroll again.</p>
-    <textarea id="cfg" class="code" rows="30" spellcheck="false" aria-label="Rules JSON"></textarea>
-    <div class="actions">
-      <button class="primary" id="cfg-save">Save rules</button>
-      <button class="ghost" id="cfg-reset">Reset to defaults</button>
-      <button class="ghost" id="cfg-dl">Download config.json</button>
-      <label class="ghost filebtn">Load config.json<input id="cfg-up" type="file" accept=".json,application/json"></label>
-      <span id="cfg-msg" class="status" role="status"></span>
-    </div>
-  </div>
-</section>
-
-<section id="view-help" role="tabpanel" hidden>
-  <div class="card prose">
-    <h2>How it works</h2>
-    <ol>
-      <li>The Payentry PDF is read in this browser. Each employee's salary (SAL), regular (REG), employer tax, employee tax, deductions and net pay are extracted.</li>
-      <li>Each employee is matched to the Employee List to get the class. Unknown employees are booked provisionally by their Payentry department and flagged.</li>
-      <li>The rules in the SOP decide the account: officers 66010, city managers 66000.1 / 67610.1, Admin 66020 / 67610, everyone else 50005 Contract labor. Employer tax follows the pay. Where pay is both salary and regular, tax is split by share of gross.</li>
-      <li>Credits are net pay and employee plus employer taxes to 21040, with each employee's class. Employee deductions are a credit to 60100.</li>
-      <li>The checks compare the result with the report's own totals. If a red check fails, downloads stay off.</li>
-    </ol>
-    <h3>Assumptions you can change on the Rules tab</h3>
-    <ul>
-      <li>The journal is dated the check date.</li>
-      <li>Deductions are credited to 60100 (reduces health insurance expense).</li>
-      <li>Griffin Conaty's regular pay is contract labor (50005) even though his class is Administrative.</li>
-      <li>Jared Wiseman: $500 to NYC city manager, then $200 to Charleston city manager (from the 21 Sep week), the rest to NYC contract labor. An amount under $500 is all contract labor.</li>
-      <li>Outside-Payentry payments are credited to 21040 until you say otherwise.</li>
+    <ul class="slots" id="slots">
+      <li data-k="pdf"><span class="mark">&#9675;</span><span class="lbl"><b>Payentry report</b> <em>PDF, required</em></span><span class="fn"></span><button class="x" aria-label="Remove Payentry report" hidden>&times;</button></li>
+      <li data-k="emp"><span class="mark">&#9675;</span><span class="lbl"><b>Employee List</b> <em>Excel, required</em></span><span class="fn"></span><button class="x" aria-label="Remove Employee List" hidden>&times;</button></li>
+      <li data-k="cls"><span class="mark">&#9675;</span><span class="lbl"><b>QuickBooks class list</b> <em>Excel, recommended</em></span><span class="fn"></span><button class="x" aria-label="Remove class list" hidden>&times;</button></li>
+      <li data-k="ref"><span class="mark">&#9675;</span><span class="lbl"><b>Finished journal to compare</b> <em>Excel, optional</em></span><span class="fn"></span><button class="x" aria-label="Remove finished journal" hidden>&times;</button></li>
     </ul>
-    <h3>Privacy</h3>
-    <p>No payroll file is uploaded. The page has no network access to other sites. Only the Rules are saved in your browser.</p>
-  </div>
-</section>
+    <p id="notice" class="notice" role="status" aria-live="polite" hidden></p>
+
+    <details class="extras" id="extras">
+      <summary>Add payments made outside Payentry <small>(optional)</small></summary>
+      <div class="grid2">
+        <label class="field">Jared Wiseman, total paid ($)
+          <input id="o-jared" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+        </label>
+        <label class="field">Yassine, direct payments ($)
+          <input id="o-yassine" type="number" min="0" step="0.01" inputmode="decimal" placeholder="0.00">
+        </label>
+      </div>
+      <label class="field">Other lines, such as Deel payroll
+        <span class="hint">One line per row: account, class, debit, credit, description (comma separated)</span>
+        <textarea id="o-manual" rows="4" spellcheck="false"></textarea>
+      </label>
+      <button class="ghost" id="update" type="button">Update journal</button>
+    </details>
+  </section>
+
+  <section id="results" hidden aria-live="polite">
+    <div id="banner" class="banner"></div>
+
+    <div id="flagbox" class="card callout" hidden>
+      <h2 id="flag-title"></h2>
+      <p class="hint">They are included in the journal under a temporary class and marked <code>[class unconfirmed]</code>. Send this email to Jonathan, then add them to the Employee List.</p>
+      <pre id="email" class="draft"></pre>
+      <button class="ghost" id="copy-email" type="button">Copy email</button>
+    </div>
+
+    <div class="card">
+      <div class="actions top-actions">
+        <button class="primary" id="dl-xlsx" type="button">Download journal (Excel)</button>
+        <button class="ghost" id="dl-csv" type="button">Download for QuickBooks import (CSV)</button>
+        <button class="ghost" id="copy-louise" type="button">Copy reply to Louise</button>
+      </div>
+      <p id="blocked" class="blocked" hidden></p>
+      <h2>Journal entry</h2>
+      <div class="tablewrap" id="tbl"></div>
+    </div>
+
+    <details class="card" id="cmpbox" hidden>
+      <summary><b>Compared with your finished journal</b> <span id="cmp-sum"></span></summary>
+      <div class="tablewrap" id="cmp"></div>
+    </details>
+
+    <details class="card">
+      <summary><b>What was checked</b> <span id="chk-sum"></span></summary>
+      <ul id="checks" class="checks"></ul>
+    </details>
+
+    <div class="actions"><button class="ghost" id="reset" type="button">Start over</button></div>
+  </section>
 </main>
+
+<footer class="wrap foot"><a href="admin.html">Administrators: edit rules</a></footer>
 
 <script src="vendor/xlsx.full.min.js"></script>
 <script type="module" src="src/app.js"></script>

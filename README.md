@@ -4,17 +4,21 @@ A small web app that turns the weekly **Payentry Labor Distribution Report (PDF)
 
 * **Runs entirely in the browser.** The PDF and Excel files are read locally. Nothing is uploaded, and the site's Content-Security-Policy blocks requests to other sites.
 * **No build step.** It is static HTML + JavaScript. Deploy it as-is.
-* **Rules are data.** Accounts, class names, special cases and assumptions live in `config.json` (editable in the app on the *Rules* tab).
+* **Rules are data.** Accounts, class names, special cases and assumptions live in `config.json` (administrators can also edit them in the browser on `admin.html`).
 
 ## What you do each week
 
 1. Log in to Payentry (the verification code comes from the authenticator app) and download the *Labor Distribution Report &ndash; PDF*.
-2. Open the app, load the PDF, the current **Employee List** (`Employee name`, `Class`) and the **QBO class list**.
-3. Optional: enter Jared / Yassine payments and any Deel lines (section 2).
-4. Press **Build journal entry**, read the checks, then download the `.xlsx` or the QBO import `.csv`.
-5. If employees are not on the Employee List, copy the email draft to Jonathan. Reply to Louise when done (draft included).
+2. Open the app and **drop all the files in at once**: the PDF, the current Employee List and the QuickBooks class list (and, if you want to compare, a finished journal). The app works out which file is which.
+3. Read the colored banner. Green means ready, amber means ready with something to look at, red means it cannot be used yet.
+4. Download the Excel journal or the QuickBooks import CSV.
+5. If employees are not on the Employee List, copy the email to Jonathan. Copy the reply to Louise when the payroll is recorded.
 
-If any red check fails (debits &ne; credits, totals do not tie to the report, unknown class, unknown pay code) the downloads stay off.
+Payments made outside Payentry (Jared, Yassine, Deel) go in the optional box below the drop area.
+
+If a serious check fails (debits &ne; credits, totals do not tie to the report, unknown class, unknown pay code) the downloads stay off.
+
+**Administrators:** the small link at the bottom of the page opens the rules (accounts, class names, special cases). Changes there are saved in that browser only; to change the rules for everyone, edit `config.json` and redeploy.
 
 ## Run locally
 
@@ -44,7 +48,7 @@ git push -u origin main
 
 Payroll tools should not be public. In Vercel go to *Settings &rarr; Deployment Protection* and enable **Vercel Authentication** (or Password Protection on paid plans) so only your team can open the URL. The app is also marked `noindex`.
 
-## Rules and assumptions (change them in `config.json`)
+## Rules and assumptions (`config.json`)
 
 | Topic | Default |
 |---|---|
@@ -82,9 +86,12 @@ Never commit payroll files. `.gitignore` already excludes PDFs and spreadsheets.
 
 ```
 index.html  style.css  config.json  vercel.json
+admin.html        rules editor for administrators
 src/engine.js     parsing, rules, journal, checks (pure functions)
+src/detect.js     recognises which dropped file is which
 src/pdflines.js   rebuilds text lines from pdf.js output
 src/app.js        browser UI
+src/config.js, src/admin.js   rules loading and the admin page
 vendor/           pdf.js and SheetJS (pinned, no CDN)
 tests/            node --test
 ```
