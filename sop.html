@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Payroll SOP</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%276%27 fill=%27%231f4fd8%27/%3E%3Cpath d=%27M9 22V10h10M9 16h8M9 22h10%27 stroke=%27white%27 stroke-width=%273%27 fill=%27none%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top"><div class="wrap head"><div><h1>Empire US Payroll (Payentry) &ndash; SOP</h1><p class="sub">Version of 23 Oct 2026. The app follows this document. Step numbers are the same as in the Word SOP.</p></div><a class="back" href="./">&larr; Back to payroll</a></div></header>
+<main class="wrap sop">
+  <div class="card">
+    <p><b>Purpose:</b> record each weekly US payroll for Empire Tours in QuickBooks Online (QBO). Follow the steps in order. If anything is not covered, stop and ask Jonathan Yaffe (<a href="mailto:jyaffe@empire-tp.com">jyaffe@empire-tp.com</a>) rather than guessing.</p>
+    <p><b>You need before you start:</b> access to VM1 and Splashtop (GATP-Win11), the <i>Credentials_Empire</i> Google Sheet for the Payentry login, the latest Employee List, and access to QBO.</p>
+    <p class="hint"><b>What the app does for you:</b> Part B (check names), Part C (amounts), the lines of Part D and the checks of Part F. <b>You still do by hand:</b> Part A (get the report, the verification code comes from Palak&rsquo;s phone), entering or importing the journal in QBO, and the emails.</p>
+  </div>
+
+  <nav class="card toc" aria-label="Parts of the SOP">
+    <a href="#A">A. Get the report</a> <a href="#B">B. Check employees</a> <a href="#C">C. Amounts</a> <a href="#D">D. Record in QBO</a> <a href="#E">E. Special cases</a> <a href="#F">F. Final checks</a> <a href="#mail">Email template</a>
+  </nav>
+
+  <section class="card" id="A">
+    <h2>Part A &ndash; Get the payroll report</h2>
+    <ol class="steps">
+      <li id="s1" value="1"><b>Log in to the remote computer (Splashtop).</b> Payentry is used from GATP-Win11, not from your own PC.
+        <ol type="a">
+          <li>Log in to <b>VM1</b>. On the desktop, double-click <b>Splashtop Business</b> (if already open, skip ahead).</li>
+          <li>Under <b>Default Group</b>, double-click <b>GATP-Win11</b>.</li>
+          <li>Wait on &ldquo;Connecting&hellip;&rdquo; until the Windows sign-in screen appears.</li>
+          <li>On the sign-in screen (user <b>GATP</b>), click <b>Sign in</b>. No password is needed.</li>
+          <li>Open <b>Google Chrome</b> on GATP-Win11.</li>
+        </ol></li>
+      <li id="s2" value="2"><b>Log in to Payentry.</b>
+        <ol type="a">
+          <li>Open the Google Sheet <b>Credentials_Empire</b> and find the row <b>PayEntry (payroll login)</b>: username, password, Company ID and the note about the authentication app. <b>Do not copy these into the SOP, the app or emails.</b></li>
+          <li>In a new Chrome tab on GATP-Win11, go to <code>new.payentry.com/107/Account/Login</code>.</li>
+          <li>Enter the username, password and Company ID and click <b>LOGIN</b>.</li>
+          <li>On <b>Enter Verification Code</b>, ask <b>Palak Soni Ma&rsquo;am</b> for the current code (it comes from the authentication app on her phone). Ask only when you are ready to type it, then click <b>Verify Code</b>.</li>
+        </ol></li>
+      <li id="s3" value="3">Go to <b>Reports</b>, then <b>Company Reports</b>.</li>
+      <li id="s4" value="4">Select <b>Labor</b>, click <b>Search</b>, then <b>Run</b>.</li>
+      <li id="s5" value="5">Choose the <b>date range</b> (the pay date you are recording) and run the report.</li>
+      <li id="s6" value="6">Go to <b>My Reports</b> and open <b>Labor Distribution Report &ndash; PDF</b>. Save it to the client folder, named by pay date.</li>
+    </ol>
+    <p class="hint">The Word SOP has no step 7; numbering continues at 8.</p>
+  </section>
+
+  <section class="card" id="B">
+    <h2>Part B &ndash; Check every employee against the Employee List</h2>
+    <p class="hint">Do this before booking anything. The app does it automatically when you drop the report and the Employee List.</p>
+    <ol class="steps">
+      <li id="s8" value="8">Write down every employee name on the Labor Distribution Report.</li>
+      <li id="s9" value="9">Look each name up in the <b>Employee List</b>. It shows the employee&rsquo;s <b>class</b> (Chicago, Admin, See it All, NYC, Washington D.C.).</li>
+      <li id="s10" value="10"><b>If every name is on the list,</b> go to Part C.</li>
+      <li id="s11" value="11"><b>If any employee is NOT on the list:</b>
+        <ol type="a">
+          <li><b>Highlight</b> the name and list all missing employees (name, pay type on the report, weekly gross, and what city or role you know).</li>
+          <li><b>Do not guess a class.</b></li>
+          <li><b>Email Jonathan</b> (copy <a href="mailto:empire@gatpsolutions.com">empire@gatpsolutions.com</a>) with the list and ask for (a) the <b>class</b> and (b) whether any pay is <b>city-manager salary</b> and from what date. The app writes this email for you.</li>
+          <li>When Jonathan replies, <b>add the employee to the Employee List</b> with the confirmed class, then continue. If you must close the books before he replies, book the rest of the payroll and leave the missing employee&rsquo;s amounts in a clearly labelled hold line, so nothing is posted to a wrong class.</li>
+        </ol></li>
+      <li id="s12" value="12">Also check the <b>special cases (Part E)</b> for each name. Some employees are always coded a certain way regardless of the Employee List.</li>
+    </ol>
+    <p class="hint"><b>In the app:</b> employees not on the list are included in the journal under a temporary class (from their Payentry department), marked <code>[class unconfirmed]</code>, and the app drafts the email to Jonathan.</p>
+  </section>
+
+  <section class="card" id="C">
+    <h2>Part C &ndash; Work out the amounts</h2>
+    <ol class="steps">
+      <li id="s13" value="13">For each employee, take from the report: <b>Salary</b>, <b>Regular (hourly)</b>, <b>Employer taxes</b>, <b>Employee taxes</b>, <b>Deductions</b> and <b>Net pay</b>.</li>
+      <li id="s14" value="14">Decide where each pay amount goes:
+        <div class="tablewrap"><table>
+          <thead><tr><th>Pay</th><th>Debit account</th><th>Class</th></tr></thead>
+          <tbody>
+            <tr><td>Regular pay, employee not in Admin class</td><td>50005 Cost of Goods Sold: Contract labor</td><td>Class from the Employee List</td></tr>
+            <tr><td>Regular pay, Admin class</td><td>66020 Payroll expenses: Salaries &amp; wages</td><td>Admin</td></tr>
+            <tr><td>Steven Garcia</td><td>66010 Payroll expenses: Officers&rsquo; salaries</td><td>His class</td></tr>
+            <tr><td><b>City-manager salary</b> (the Salary code of the city-manager employees in Part E)</td><td>66000.1 Payroll expenses: City Manager Salary</td><td>The employee&rsquo;s work-city class</td></tr>
+            <tr><td>Employer tax on Contract labor pay</td><td>50005 Contract labor</td><td>Same as the pay</td></tr>
+            <tr><td>Employer tax on Admin pay</td><td>67610 Payroll expenses: Payroll taxes</td><td>Admin</td></tr>
+            <tr><td>Employer tax on city-manager salary</td><td>67610.1 Payroll expenses: City Manager Tax</td><td>Same as the salary</td></tr>
+            <tr><td>Deductions</td><td>60100 General business expenses: Health insurance &amp; accident plans</td><td>As on report</td></tr>
+          </tbody></table></div></li>
+      <li id="s15" value="15"><b>Employer tax follows the pay</b> (Jonathan, 15 Oct). Pay to Contract labor: its employer tax goes to Contract labor in the same class. City-manager salary: employer tax to 67610.1. Only Admin pay keeps its tax in 67610.</li>
+      <li id="s16" value="16"><b>Splitting tax between salary and hourly:</b> if Payentry shows them on separate pages, use each page&rsquo;s actual tax total. If it combines them on one page, split the combined employer tax in proportion to each pay type&rsquo;s share of gross pay for that week (agreed with Jonathan, 28 Sep).</li>
+      <li id="s17" value="17"><b>Employee withholdings are never an expense.</b> Only the employer tax is expensed. Employee taxes go to the liability line with the net pay.</li>
+      <li id="s18" value="18"><b>Total by class.</b> Add up each line by class (do not post employee by employee). Keep a per-person working for the city-manager amounts so they tie back to the report by name. <i>The app&rsquo;s Excel file has a &ldquo;By class&rdquo; sheet and a &ldquo;City manager&rdquo; sheet for this.</i></li>
+    </ol>
+  </section>
+
+  <section class="card" id="D">
+    <h2>Part D &ndash; Record the journal entry in QBO</h2>
+    <ol class="steps">
+      <li id="s19" value="19">Create <b>one journal entry per pay date</b>, dated the pay date.</li>
+      <li id="s20" value="20">Enter the <b>debit lines</b> from the table in step 14, one line per account per class.</li>
+      <li id="s21" value="21">Enter the <b>credit lines</b>: <b>21040 Accrued Payroll Liabilities</b> for the total employer plus employee taxes, and <b>21040</b> again for the total net pay.</li>
+      <li id="s22" value="22">Set the <b>class on every line.</b> Class names must match QBO exactly (for example Empire Tours:Chicago; NYC is a standalone class).</li>
+      <li id="s23" value="23">Check that <b>total debits equal total credits.</b> Save the entry.</li>
+      <li id="s24" value="24">Handle the people paid outside Payentry (Jared Wiseman direct payments; Deel payroll for Yassine, Jennifer and Louise) as described in Part E. <i>In the app: the optional box &ldquo;Add payments made outside Payentry&rdquo;.</i></li>
+    </ol>
+  </section>
+
+  <section class="card" id="E">
+    <h2>Part E &ndash; Employees and special cases</h2>
+    <p>City-manager employees: their Salary code goes to 66000.1 / 67610.1 in the class shown. Amounts are per Jonathan&rsquo;s email; confirm against the reports.</p>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Employee</th><th>Work city</th><th>Class</th><th>City-manager pay</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Griffin Conaty</td><td>Chicago</td><td>Administrative (for now)</td><td>$1,000 per week</td><td>Relatively new. Part of his salary will later go to Charleston, then he moves to another city. Jonathan will send details.</td></tr>
+        <tr><td>Alan Lanxton</td><td>Chicago</td><td>Chicago</td><td>Currently $0, historically $500</td><td>Confirm against the reports.</td></tr>
+        <tr><td>Adam Sherman</td><td>Chicago</td><td>Chicago</td><td>$1,000 per week</td><td>Made city manager recently. Jonathan thinks 1 Aug, to be confirmed. We start from 14 Aug.</td></tr>
+        <tr><td>Braeden Wilson</td><td>Chicago</td><td>Chicago</td><td>Currently $200 (one week was $100)</td><td>Newish. Hourly-only before 21 Aug.</td></tr>
+        <tr><td>Shane Harris</td><td>Washington D.C.</td><td>Washington D.C.</td><td>$1,000, recently $1,200</td><td>Confirm the change date.</td></tr>
+        <tr><td>Jesse Costolloe</td><td>Washington D.C.</td><td>Washington D.C.</td><td>Salary code</td><td>Historical employee.</td></tr>
+        <tr><td>Trevor Stokes</td><td>Admin</td><td>Administrative</td><td>Salary code</td><td>Historical employee.</td></tr>
+        <tr><td>Jackson Clemons</td><td>Admin</td><td>Administrative</td><td>100% of salary code</td><td>The two $2,500 stipends (weeks ending 31 Jul and 28 Aug) stay Administrative, not city manager.</td></tr>
+      </tbody></table></div>
+    <h3>Other special cases</h3>
+    <ul class="prose">
+      <li><b>Jared Wiseman (NYC):</b> paid by direct payment, so no payroll tax. $500 per payment goes to City Manager Salary (class NYC), the rest stays in Contract labor (NYC). From the 21&ndash;27 Sep payroll onward, $200 goes to City Manager Salary with class Charleston, $500 stays City Manager (NYC), and the leftover stays COGS (NYC) (Louise, 9 Oct).</li>
+      <li><b>Yassine (London):</b> only amounts paid through Deel are City Manager pay (class London). His weekly payments are COGS (guide pay).</li>
+      <li><b>Yassine, Jennifer and Louise (Deel):</b> book the Deel payroll at gross, then employer taxes, insurance and so on, down to net pay. Jennifer and Louise are Administrative and are not city manager.</li>
+      <li><b>Louise, Jennifer and Griffin</b> are in the Administrative class for now even though they work in London or Chicago (Jonathan, 9 Oct).</li>
+      <li>The roster changes often. Always check the latest emails from Jonathan and Louise before each run.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="F">
+    <h2>Part F &ndash; Final checks</h2>
+    <ol class="steps">
+      <li id="s25" value="25">Total salary plus regular pay by class equals the report&rsquo;s gross pay for the pay date.</li>
+      <li id="s26" value="26">Debits equal credits, and every class exists in QBO.</li>
+      <li id="s27" value="27">Every employee on the report is on the Employee List, or has been sent to Jonathan for confirmation.</li>
+      <li id="s28" value="28">The monthly City Manager List shared with Jonathan is updated and ties to QBO (66000.1 and 67610.1). <i>The app does not build this list yet; use its &ldquo;City manager&rdquo; sheet for the weekly numbers.</i></li>
+      <li id="s29" value="29">Reply to Louise (copy Jonathan) to confirm the payroll is recorded. Raise open questions on the weekly call.</li>
+    </ol>
+    <h3>Open items to confirm with Jonathan</h3>
+    <ul class="prose">
+      <li>Charleston and Washington D.C. classes exist in QBO with the exact names.</li>
+      <li>Adam Sherman&rsquo;s start date (14 Aug or 1 Aug).</li>
+      <li>Dates for Griffin Conaty&rsquo;s move to Charleston and then another city.</li>
+      <li>That the Deel payroll summaries are booked at gross down to net.</li>
+    </ul>
+  </section>
+
+  <section class="card" id="mail">
+    <h2>Email template &ndash; employees not on the Employee List</h2>
+    <p><b>Subject:</b> Payroll &ndash; class confirmation needed</p>
+    <p>Hi Jonathan,</p>
+    <p>While recording the payroll for the week of &hellip;, we found the employees below who are not on our Employee List. Could you please confirm the class for each, and whether any of their pay is city-manager salary (and from what date)?</p>
+    <p class="hint">Table: Employee | Pay on report (Salary / Regular) | Weekly gross | Class? | City-manager pay?</p>
+    <p>We have not booked these employees yet and will update the books as soon as we hear from you.</p>
+    <p>Thanks,</p>
+    <p class="hint">The app fills this in automatically when it finds employees who are not on the list.</p>
+  </section>
+</main>
+<footer class="wrap foot"><a href="./">Back to payroll</a></footer>
+</body>
+</html>

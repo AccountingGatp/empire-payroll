@@ -114,3 +114,14 @@ code { font: 12.5px ui-monospace, Menlo, Consolas, monospace; background: var(--
 .callout h2 { font-size: 15px; }
 details.card > summary { cursor: pointer; }
 details.card[open] > summary { margin-bottom: 12px; }
+
+/* ---- SOP page ---- */
+.head-links { margin-left: auto; }
+.sop-link { color: var(--brand); font-weight: 600; text-decoration: none; padding: 4px 10px; border: 1px solid var(--brand); border-radius: 99px; font-size: 13px; }
+.sop .steps { padding-left: 24px; }
+.sop .steps > li { margin-bottom: 10px; }
+.sop ol ol { margin-top: 6px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+.toc a { color: var(--brand); text-decoration: none; font-weight: 600; font-size: 14px; }
+.sop section { scroll-margin-top: 12px; }
+.sop li:target { background: var(--warn-bg); border-radius: 6px; }

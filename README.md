@@ -9,7 +9,7 @@ A small web app that turns the weekly **Payentry Labor Distribution Report (PDF)
 ## What you do each week
 
 1. Log in to Payentry (the verification code comes from the authenticator app) and download the *Labor Distribution Report &ndash; PDF*.
-2. Open the app and **drop all the files in at once**: the PDF, the current Employee List and the QuickBooks class list (and, if you want to compare, a finished journal). The app works out which file is which.
+2. Open the app and **drop all the files in at once**: the PDF, the current Employee List and the QuickBooks class list. The app works out which file is which. (A finished journal is not needed; if one is dropped it is ignored.)
 3. Read the colored banner. Green means ready, amber means ready with something to look at, red means it cannot be used yet.
 4. Download the Excel journal or the QuickBooks import CSV.
 5. If employees are not on the Employee List, copy the email to Jonathan. Copy the reply to Louise when the payroll is recorded.
@@ -17,6 +17,8 @@ A small web app that turns the weekly **Payentry Labor Distribution Report (PDF)
 Payments made outside Payentry (Jared, Yassine, Deel) go in the optional box below the drop area.
 
 If a serious check fails (debits &ne; credits, totals do not tie to the report, unknown class, unknown pay code) the downloads stay off.
+
+**The SOP is in the app.** The *Payroll SOP* link (top right and footer) opens `sop.html`, the full Empire US Payroll SOP, version 23 Oct 2026, with the same step numbers as the Word file. Every check in the results shows the SOP step it comes from (also in the Excel *Checks* sheet). When the SOP changes, update `sop.html`, `SOP_VERSION` and the step map in `src/sop.js`, and `config.json` if a rule changed.
 
 **Administrators:** the small link at the bottom of the page opens the rules (accounts, class names, special cases). Changes there are saved in that browser only; to change the rules for everyone, edit `config.json` and redeploy.
 
@@ -89,6 +91,8 @@ index.html  style.css  config.json  vercel.json
 admin.html        rules editor for administrators
 src/engine.js     parsing, rules, journal, checks (pure functions)
 src/detect.js     recognises which dropped file is which
+src/sop.js        SOP version and the SOP step behind each check
+sop.html          the Payroll SOP, readable in the app
 src/pdflines.js   rebuilds text lines from pdf.js output
 src/app.js        browser UI
 src/config.js, src/admin.js   rules loading and the admin page

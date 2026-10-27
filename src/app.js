@@ -3,6 +3,7 @@ import { pdfToLines } from './pdflines.js';
 import { runPayroll, journalCsv, r2 } from './engine.js';
 import { detectKind } from './detect.js';
 import { loadConfig } from './config.js';
+import { SOP_VERSION, sopSteps, sopLabel } from './sop.js';
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = new URL('../vendor/pdf.worker.min.mjs', import.meta.url).href;
 
@@ -30,7 +31,7 @@ function notice(text, bad) {
 }
 
 // ---------------------------------------------------------------- intake: drop everything at once
-const KINDS = { pdf: 'Payentry report', emp: 'Employee List', cls: 'QuickBooks class list', ref: 'Finished journal' };
+const KINDS = { pdf: 'Payentry report', emp: 'Employee List', cls: 'QuickBooks class list' };
 
 async function sheetRows(file) {
   const wb = XLSX.read(await file.arrayBuffer(), { type: 'array' });
@@ -44,12 +45,14 @@ async function addFiles(fileList) {
       const isPdf = /\.pdf$/i.test(f.name) || f.type === 'application/pdf';
       const rows = isPdf ? null : await sheetRows(f);
       const kind = detectKind(f.name, rows);
-      if (!kind) { problems.push(`I could not tell what "${f.name}" is. Expected the Payentry PDF, Employee List, class list or a finished journal.`); continue; }
+      if (kind === 'ref') { problems.push(`"${f.name}" looks like a finished journal. It is not needed, so I ignored it.`); continue; }
+      if (!kind) { problems.push(`I could not tell what "${f.name}" is. Expected the Payentry PDF, the Employee List or the QuickBooks class list.`); continue; }
       state.files[kind] = f; state.parsed[kind] = rows;
     } catch (err) { problems.push(`"${f.name}" could not be opened (${err.message}).`); }
   }
   drawSlots();
-  notice(problems.join(' '), problems.length > 0);
+  state.note = problems.join(' ');
+  notice(state.note, problems.length > 0);
   await maybeRun();
 }
 
@@ -104,10 +107,9 @@ async function maybeRun() {
     const num = id => { const v = parseFloat($(id).value); return Number.isFinite(v) ? v : 0; };
     state.result = runPayroll({
       lines, empListRows: state.parsed.emp, classListRows: state.parsed.cls || null, cfg: state.cfg,
-      referenceRows2d: state.parsed.ref || null,
       outside: { jared: num('o-jared'), yassine: num('o-yassine'), manualCsv: $('o-manual').value }
     });
-    notice('');
+    notice(state.note || '');
     render();
     $('results').hidden = false;
     $('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -162,18 +164,10 @@ function render() {
     r.rows.map(x => ({ cells: [x.ACCOUNT, fmt(x.DEBITS), fmt(x.CREDITS), x.DESCRIPTION, x.CLASS], flag: x.DESCRIPTION.includes('[class unconfirmed]') })),
     { right: [1, 2], foot: ['Total', fmt(totalDr), fmt(r2(r.rows.reduce((a, x) => a + (Number(x.CREDITS) || 0), 0))), '', ''] });
 
-  $('cmpbox').hidden = !r.diffs;
-  if (r.diffs) {
-    $('cmp-sum').textContent = r.diffs.length ? `– ${r.diffs.length} difference${r.diffs.length > 1 ? 's' : ''}` : '– no differences';
-    $('cmp').innerHTML = r.diffs.length
-      ? tableHtml(['Employee', 'Line', 'Differs in', 'Your finished journal', 'This journal'], r.diffs.map(d => ({ cells: d })))
-      : '<p class="hint" style="padding:12px">Every line matches your finished journal.</p>';
-  }
-
   $('chk-sum').textContent = `– ${r.checks.filter(c => c[1]).length} of ${r.checks.length} passed`;
   $('checks').innerHTML = r.checks.map(([name, ok, detail, critical]) => {
     const cls = ok ? 'pass' : critical ? 'fail' : 'warn';
-    return `<li><span class="badge ${cls}">${ok ? 'PASS' : critical ? 'FAIL' : 'LOOK'}</span><span><b>${esc(name)}</b><br><span class="d">${esc(detail)}</span></span></li>`;
+    return `<li><span class="badge ${cls}">${ok ? 'PASS' : critical ? 'FAIL' : 'LOOK'}</span><span><b>${esc(name)}</b> <small>${esc(sopLabel(sopSteps(name)))}</small><br><span class="d">${esc(detail)}</span></span></li>`;
   }).join('');
 }
 
@@ -197,8 +191,8 @@ function workbook(r) {
   add('City manager', [['Line', 'Account', 'Amount', 'Class'], ...r.rows.filter(x => /^(66000\.1|67610\.1)/.test(x.ACCOUNT)).map(x => [x.DESCRIPTION, x.ACCOUNT, x.DEBITS, x.CLASS])], [90, 50, 12, 32]);
   add('Employees', [['Employee', 'Emp Id', 'Payentry dept', 'Class used', 'Class source', 'Needs confirmation', 'Gross', 'Employer tax', 'Employee tax', 'Deductions', 'Net'],
     ...r.info.map(i => [i.emp, i.id, i.dept, i.cls, i.src, i.flagged ? 'YES' : '', i.gross, i.er, i.ee, i.ded, i.net])], [26, 8, 18, 32, 12, 10, 12, 12, 12, 12, 12]);
-  add('Checks', [['Check', 'Result', 'Detail'], ...r.checks.map(c => [c[0], c[1] ? 'PASS' : c[3] ? 'FAIL' : 'LOOK', c[2]])], [50, 10, 110]);
-  if (r.diffs) add('Compare', [['Employee', 'Line', 'Differs in', 'Reference', 'This output'], ...r.diffs], [24, 40, 20, 70, 70]);
+  add('Checks', [['Check', 'Result', 'SOP step', 'Detail'], ...r.checks.map(c => [c[0], c[1] ? 'PASS' : c[3] ? 'FAIL' : 'LOOK', sopSteps(c[0]).join(', '), c[2]])], [50, 10, 14, 110]);
+  add('SOP', [['Journal built following the Empire US Payroll SOP, version ' + SOP_VERSION]], [90]);
   return wb;
 }
 $('dl-xlsx').addEventListener('click', () => {
@@ -210,4 +204,5 @@ $('copy-louise').addEventListener('click', e => copyText(e.currentTarget, state.
 $('copy-email').addEventListener('click', e => copyText(e.currentTarget, state.result.email, 'Copy email'));
 
 // ---------------------------------------------------------------- start
+$('sop-ver').textContent = SOP_VERSION;
 state.cfgReady = loadConfig().then(({ cfg }) => { state.cfg = cfg; }).catch(err => notice('Could not load the rules: ' + err.message, true));

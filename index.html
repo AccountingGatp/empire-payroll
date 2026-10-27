@@ -15,6 +15,7 @@
       <h1>Empire Payroll Journal</h1>
       <p class="sub">Drop the weekly payroll files. Get the QuickBooks journal entry.</p>
     </div>
+    <span class="head-links"><a href="sop.html" class="sop-link">Payroll SOP</a></span>
     <span class="privacy" title="Nothing you load here is sent anywhere. Everything happens inside this browser tab.">Private: files never leave this computer</span>
   </div>
 </header>
@@ -32,7 +33,6 @@
       <li data-k="pdf"><span class="mark">&#9675;</span><span class="lbl"><b>Payentry report</b> <em>PDF, required</em></span><span class="fn"></span><button class="x" aria-label="Remove Payentry report" hidden>&times;</button></li>
       <li data-k="emp"><span class="mark">&#9675;</span><span class="lbl"><b>Employee List</b> <em>Excel, required</em></span><span class="fn"></span><button class="x" aria-label="Remove Employee List" hidden>&times;</button></li>
       <li data-k="cls"><span class="mark">&#9675;</span><span class="lbl"><b>QuickBooks class list</b> <em>Excel, recommended</em></span><span class="fn"></span><button class="x" aria-label="Remove class list" hidden>&times;</button></li>
-      <li data-k="ref"><span class="mark">&#9675;</span><span class="lbl"><b>Finished journal to compare</b> <em>Excel, optional</em></span><span class="fn"></span><button class="x" aria-label="Remove finished journal" hidden>&times;</button></li>
     </ul>
     <p id="notice" class="notice" role="status" aria-live="polite" hidden></p>
 
@@ -75,13 +75,9 @@
       <div class="tablewrap" id="tbl"></div>
     </div>
 
-    <details class="card" id="cmpbox" hidden>
-      <summary><b>Compared with your finished journal</b> <span id="cmp-sum"></span></summary>
-      <div class="tablewrap" id="cmp"></div>
-    </details>
-
     <details class="card">
       <summary><b>What was checked</b> <span id="chk-sum"></span></summary>
+      <p class="hint">Each check follows a step of the <a href="sop.html">Payroll SOP</a> (version <span id="sop-ver"></span>).</p>
       <ul id="checks" class="checks"></ul>
     </details>
 
@@ -89,7 +85,7 @@
   </section>
 </main>
 
-<footer class="wrap foot"><a href="admin.html">Administrators: edit rules</a></footer>
+<footer class="wrap foot"><a href="sop.html">Payroll SOP</a> &middot; <a href="admin.html">Administrators: edit rules</a></footer>
 
 <script src="vendor/xlsx.full.min.js"></script>
 <script type="module" src="src/app.js"></script>
